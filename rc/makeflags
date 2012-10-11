@@ -1,0 +1,15 @@
+# setup MAKEFLAGS
+MAKEFLAGS="-s"
+case $(uname) in
+Darwin|*BSD)
+    # query the number of available cpus, use this as the arg to -j
+    local hwncpu=$(sysctl -n hw.ncpu)
+    if test "$hwncpu" -gt 1; then
+        MAKEFLAGS="$MAKEFLAGS -j$hwncpu"
+    fi
+    ;;
+*)
+    ;;
+esac
+export MAKEFLAGS
+
