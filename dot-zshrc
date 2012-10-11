@@ -1,0 +1,38 @@
+# load ~/.zshrc-config, which contains user/host specifics
+test -f ~/.zshrc-config && source ~/.zshrc-config
+
+# ~/.zshrc should be a symlink
+if ! test -L ~/.zshrc
+then
+    echo "ERROR: ~/.zshrc is not a symlink"
+    return
+fi
+
+local zshrc=`readlink ~/.zshrc`
+if test -z "$zshrc"
+then
+    echo "ERROR: 'readlink ~/.zshrc' failed"
+    return
+fi
+
+# find the zshrc/rc/ directory
+local zshrcdir=`dirname "$zshrc"`
+if test -z "$zshrcdir"
+then
+    echo "ERROR: 'dirname $zshrc' failed"
+    return
+fi
+local zshrcrc="$zshrcdir/rc"
+if ! test -d "$zshrcrc"
+then
+    echo "ERROR: $zshrcrc is not a directory"
+    return
+fi
+
+# load all of the rc files
+local rc
+for rc in "$zshrcrc"/*
+do
+    test -f "$rc" && source "$rc"
+done
+
