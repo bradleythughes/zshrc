@@ -1,0 +1,43 @@
+# prepends <path> to the PATH
+function addpath ()
+{
+    if (( $# == 0 )); then
+        echo "usage: $0 <path> [<path>...]"
+        return
+    fi
+
+    # prepend each specified path
+    for (( i = 1; i <= $#; ++i )); do
+        path=($argv[$i] $path)
+    done
+    export path
+
+    # show the user the new path
+    echo "PATH=$PATH"
+}
+
+# removes the first occurance of <path> from the PATH
+function rmpath ()
+{
+    if (( $# == 0 )); then
+        echo "usage: $0 <path> [<path>...]"
+        return
+    fi
+
+    # remove each specified path
+    for (( i = 1; i <= $#; ++i )); do
+        local a=$argv[$i]
+        for (( j = 0; j <= $#path; ++j )); do
+            local p=$path[j]
+            if [[ $a == $p ]]; then
+                path[j]=()
+                break
+            fi
+        done
+    done
+    export path
+
+    # show the user the new path
+    echo "PATH=$PATH"
+}
+
