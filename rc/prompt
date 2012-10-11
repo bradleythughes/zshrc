@@ -1,0 +1,3 @@
+# set the prompt: user@machine:~% 
+export PS1="%n@%m:%~%# "
+
