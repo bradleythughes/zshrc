@@ -1,0 +1,6 @@
+# setup 'ls' aliases
+alias ls='/bin/ls -F'
+alias la='ls -a'
+alias ll='ls -l'
+alias lla='ls -la'
+
