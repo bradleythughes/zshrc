@@ -1,0 +1,101 @@
+# prints the minimum number in a list of numbers
+function min ()
+{
+    echo "$0 = " $(sort $1 | head -n 1)
+}
+
+# prints the maximum number in a list of numbers
+function max ()
+{
+    echo "$0 = " $(sort $1 | tail -n 1)
+}
+
+# takes a list of numbers and prints the mean
+function mean ()
+{
+    awk '
+        {
+            mean += $1
+        } 
+        END {
+            print "mean = " mean / NR;
+        }
+    ' $1
+}
+
+# takes a list of numbers and prints the median
+function median ()
+{
+    sort $1 | awk '
+    function median(c, j) { 
+       if (c % 2) return j[(c+1)/2]; 
+       else return (j[c/2+1]+j[c/2])/2.0; 
+    } 
+
+    { 
+       count++;
+       values[count]=$1;  
+    } 
+
+    END { 
+       print  "median = " median(count,values); 
+    }'
+}
+
+# takes a list of numbers and prints the mode
+function mode ()
+{
+    sort $1 | awk '
+        {
+            if (i == 0 || value[i] != $1) {
+                i++;
+                value[i] = $1;
+            } else {
+            }
+            freq[i]++;
+        }
+        END {
+            m = freq[1];
+            for (i in freq) {
+                if (freq[i] > m) {
+                    m = freq[i];
+                }
+            }
+            if (m > 1) { 
+                printf("mode =", m);
+                for (i in freq) {
+                    if (freq[i] == m)
+                        printf(" %g", value[i]);
+                }
+                printf("\n");
+            } else {
+                print "no mode";
+            }
+        }
+    '
+}
+
+# takes a list of numbers and prints the standard deviation
+function stdev ()
+{
+    awk '
+        {
+            sum += $1;
+            sumsq += $1 * $1;
+        }
+        END {
+            print "stdev = " sqrt(sumsq / NR - (sum / NR) ** 2);
+        }
+    ' $1
+}
+
+# performs all math functions on the input
+function allmath ()
+{
+    min $1
+    max $1
+    mean $1
+    median $1
+    mode $1
+    stdev $1
+}
