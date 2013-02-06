@@ -1,0 +1,21 @@
+# sets the JAVA_HOME environment variable
+function set_java_home_to_version ()
+{
+    if (( $# != 1 )); then
+        echo "usage: $0 <version>" 
+        return
+    fi
+
+    JAVA_HOME=`/usr/libexec/java_home -version $1`
+    export JAVA_HOME
+    echo "JAVA_HOME=${JAVA_HOME}"
+}
+alias java6='set_java_home_to_version 1.6'
+alias java7='set_java_home_to_version 1.7'
+
+# removes the JAVA_HOME environment variable
+function unset_java_home ()
+{
+    unset JAVA_HOME
+}
+
