@@ -1,3 +1,5 @@
 # set the prompt: user@machine:~% 
-export PS1="%n@%m:%~%# "
+MACHINE=`scutil --get ComputerName`
+test -z "$MACHINE" && MACHINE="%m"
+export PS1="%n@${MACHINE}:%~%# "
 
