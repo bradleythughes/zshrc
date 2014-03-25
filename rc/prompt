@@ -1,5 +1,13 @@
 # set the prompt: user@machine:~% 
-MACHINE=`scutil --get ComputerName`
+MACHINE=$(scutil --get ComputerName)
 test -z "$MACHINE" && MACHINE="%m"
-export PS1="%n@${MACHINE}:%~%# "
-
+# unfuck window title after ssh remotes fuck it up
+case "$TERM" in
+xterm*|rxvt*)
+    TITLE=$'%{\e]0;Terminal\a%}'
+    ;;
+*)
+    TITLE=''    
+    ;;
+esac
+export PS1="${TITLE}%n@${MACHINE}:%~%# "
