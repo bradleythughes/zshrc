@@ -12,6 +12,7 @@ function set_java_home_to_version ()
 }
 alias java6='set_java_home_to_version 1.6'
 alias java7='set_java_home_to_version 1.7'
+alias java8='set_java_home_to_version 1.8'
 
 # sets JAVA_HOME environment variable to the default (no arg) value
 function set_java_home_to_default ()
